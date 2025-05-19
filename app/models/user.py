@@ -1,5 +1,8 @@
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional, List, ForwardRef
+
+# Use ForwardRef for Post to avoid circular imports
+Post = ForwardRef('Post')
 
 class UserBase(BaseModel):
     email: str
@@ -10,10 +13,8 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: int
-    posts: List['Post'] = []
+    posts: Optional[List[Post]] = []
 
     class Config:
         from_attributes = True
         populate_by_name = True
-
-from .post import Post  # Import at the end to avoid circular import

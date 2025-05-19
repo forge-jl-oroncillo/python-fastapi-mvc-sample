@@ -1,5 +1,5 @@
 from app.database import prisma
-from app.models.schemas import UserCreate, User
+from app.models import UserCreate, User
 from typing import List, Optional
 
 class UserService:
@@ -33,6 +33,14 @@ class UserService:
     
     @staticmethod
     async def delete_user(user_id: int) -> User:
+        user = await prisma.user.find_unique(
+            where={
+                'id': user_id
+            }
+        )
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+
         return await prisma.user.delete(
             where={
                 'id': user_id

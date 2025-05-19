@@ -1,8 +1,8 @@
 from pydantic import BaseModel
-from typing import Optional, TYPE_CHECKING
+from typing import Optional, ForwardRef
 
-if TYPE_CHECKING:
-    from .user import User
+# Use ForwardRef for User to avoid circular imports
+User = ForwardRef('User')
 
 class PostBase(BaseModel):
     title: str
@@ -15,7 +15,7 @@ class PostCreate(PostBase):
 class Post(PostBase):
     id: int
     author_id: Optional[int] = None
-    author: Optional['User'] = None
+    author: Optional[User] = None
 
     class Config:
         from_attributes = True
