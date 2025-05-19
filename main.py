@@ -39,3 +39,21 @@ app.include_router(post_routes.router)
 async def root():
     """Welcome endpoint that returns a greeting message"""
     return {"message": "Welcome to FastAPI with Prisma MVC!"}
+
+@app.get("/health", tags=["health"])
+async def health_check():
+    """Health check endpoint for monitoring"""
+    try:
+        # Check database connection
+        await prisma.user.count()
+        return {
+            "status": "healthy",
+            "database": "connected",
+            "timestamp": datetime.datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "database": str(e),
+            "timestamp": datetime.datetime.utcnow().isoformat()
+        }

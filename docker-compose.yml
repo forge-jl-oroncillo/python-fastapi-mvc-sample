@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - PRISMA_CLI_BINARY_TARGETS=linux-arm64-openssl-3.0.x
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres?schema=public
+      - JWT_SECRET=your-super-secret-key-change-this-in-production
+      - APP_ENV=development
+      - PYTHONPATH=/app
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    networks:
+      - app-network
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+volumes:
+  postgres_data:
+
+networks:
+  app-network:

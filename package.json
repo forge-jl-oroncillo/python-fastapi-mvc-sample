@@ -1,8 +1,22 @@
 {
+  "name": "fastapi-prisma-mvc",
+  "version": "1.0.0",
+  "description": "FastAPI with Prisma ORM using MVC pattern",
+  "private": true,
+  "scripts": {
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:studio": "prisma studio",
+    "prisma:format": "prisma format",
+    "db:reset": "prisma db push --force-reset"
+  },
   "devDependencies": {
-    "prisma": "^6.8.2"
+    "prisma": "5.4.2"
   },
   "dependencies": {
-    "@prisma/client": "^6.8.2"
+    "@prisma/client": "5.4.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
