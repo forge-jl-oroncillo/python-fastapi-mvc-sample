@@ -28,3 +28,10 @@ class UserController:
             return await UserService.delete_user(user_id)
         except Exception as e:
             raise HTTPException(status_code=404, detail="User not found")
+
+    @staticmethod
+    async def get_user_by_email(email: str) -> User:
+        user = await UserService.get_user_by_email(email)
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        return user

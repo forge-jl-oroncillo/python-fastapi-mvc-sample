@@ -46,3 +46,11 @@ class UserService:
                 'id': user_id
             }
         )
+
+    @staticmethod
+    async def get_user_by_email(email: str) -> User:
+        return await prisma.user.find_unique(
+            where={
+                'email': email
+            }
+        )

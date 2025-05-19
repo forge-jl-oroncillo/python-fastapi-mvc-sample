@@ -1,8 +1,10 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
-from app.database import init_db, close_db
-from app.routes import user_routes, post_routes
+from app.database import init_db, close_db, prisma
+from app.routes import user_routes, post_routes, auth_routes
+from app.middleware import setup_cors, setup_error_handlers, setup_logging, setup_auth
 from contextlib import asynccontextmanager
+from datetime import datetime
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -24,14 +26,13 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    return JSONResponse(
-        status_code=500,
-        content={"detail": str(exc)}
-    )
+# Setup middleware
+setup_cors(app)
+setup_error_handlers(app)
+setup_logging(app)
 
 # Include routers
+app.include_router(auth_routes.router)
 app.include_router(user_routes.router)
 app.include_router(post_routes.router)
 
@@ -49,11 +50,11 @@ async def health_check():
         return {
             "status": "healthy",
             "database": "connected",
-            "timestamp": datetime.datetime.utcnow().isoformat()
+            "timestamp": datetime.now().isoformat()
         }
     except Exception as e:
         return {
             "status": "unhealthy",
             "database": str(e),
-            "timestamp": datetime.datetime.utcnow().isoformat()
+            "timestamp": datetime.now().isoformat()
         }

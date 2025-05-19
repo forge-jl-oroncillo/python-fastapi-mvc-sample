@@ -9,6 +9,9 @@ class UserBase(BaseModel):
 class UserCreate(UserBase):
     pass
 
+class UserLogin(UserBase):
+    pass
+
 class User(UserBase):
     id: int
     posts: Optional[List[Post]] = []
