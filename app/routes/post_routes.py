@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from app.controllers.post_controller import PostController
-from app.models import PostCreate, Post
+from app.models.post import PostCreate, Post
 from typing import List
 
 router = APIRouter(prefix="/posts", tags=["posts"])

@@ -1,8 +1,6 @@
 from pydantic import BaseModel
-from typing import Optional, List, ForwardRef
-
-# Use ForwardRef for Post to avoid circular imports
-Post = ForwardRef('Post')
+from typing import Optional, List
+from app.models.post import Post
 
 class UserBase(BaseModel):
     email: str
@@ -17,4 +15,3 @@ class User(UserBase):
 
     class Config:
         from_attributes = True
-        populate_by_name = True

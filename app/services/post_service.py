@@ -1,5 +1,5 @@
 from app.database import prisma
-from app.models import PostCreate, Post
+from app.models.post import PostCreate, Post
 from typing import List, Optional
 
 class PostService:

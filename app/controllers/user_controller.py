@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from app.models.user import UserCreate, User
+from app.models.users import UserCreate, User
 from app.services.user_service import UserService
 from typing import List
 

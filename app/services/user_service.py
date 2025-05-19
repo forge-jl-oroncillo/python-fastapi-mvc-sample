@@ -1,6 +1,6 @@
 from app.database import prisma
-from app.models import UserCreate, User
-from typing import List, Optional
+from app.models.users import UserCreate, User
+from typing import List
 
 class UserService:
     @staticmethod
